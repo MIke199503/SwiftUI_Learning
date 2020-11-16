@@ -8,42 +8,63 @@
 import SwiftUI
 
 struct UpdateList: View {
+    @ObservedObject var store = UpdateStore()
+    //需要注意的是，在申明的时候，是使用的ObservableObject，但是在这里使用的obseredObject，一个是类，一个是协议。
+
+    func addUpdate(){
+        self.store.updates.append(Update(title: "New Item", image: "Card1", text: "text", date: "Jay 1"))
+    }
+
     var body: some View {
+        //可以理解为，视图的最上层是一个navigationView，然后在里面放了一个list框，然后使用for来遍历，这样，可以减轻List的工作量
         NavigationView {
-            List(updateData) { update in
-                NavigationLink(destination: UpdateDetail(update:update) ){
-                    HStack {
-                        Image(update.image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:80,height:80)
-                            .background(Color.black)
-                            .cornerRadius(20)
-                            .padding(.trailing,4)
-                    
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(update.title)
-                                .font(.system(size: 20, weight: .bold))
-                            
-                            Text(update.text)
-                                .lineLimit(2)
-                                .font(.subheadline)
-                                .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
-                            
-                            Text(update.date)
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(.secondary)
-                            
+            List{
+                ForEach(self.store.updates) { update in
+                    NavigationLink(destination: UpdateDetail(update:update)){
+                        HStack {
+                            Image(update.image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width:80,height:80)
+                                .background(Color.black)
+                                .cornerRadius(20)
+                                .padding(.trailing,4)
+                        
+                            VStack(alignment: .leading, spacing: 8.0) {
+                                Text(update.title)
+                                    .font(.system(size: 20, weight: .bold))
+                                
+                                Text(update.text)
+                                    .lineLimit(2)
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)))
+                                
+                                Text(update.date)
+                                    .font(.caption)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.secondary)
+                            }
                         }
+                        .padding(.vertical,8)
                     }
-                    .padding(.vertical,8)
+                }
+                .onDelete{ index in
+                    self.store.updates.remove(at:index.first!)
+                }
+                .onMove { (source:IndexSet,destination:Int) in
+                    self.store.updates.move(fromOffsets: source, toOffset: destination)
+                    //Indexset就是当前操作的元素的当前索引值
                 }
             }
             .navigationBarTitle(Text("Updates"))
+            .navigationBarItems(leading: Button(action: addUpdate) {
+                Text("Add Update") //在左边添加一个加数据的按钮
+            },trailing: EditButton()) //在右边添加一个编辑按钮
         }
     }
 }
+
+    
 
 
 struct UpdateList_Previews: PreviewProvider {

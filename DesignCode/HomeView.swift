@@ -33,7 +33,7 @@ struct HomeView: View {
                         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 20 )
                 }
                 .sheet(isPresented: $showUpdate){
-                    ContentView()
+                    UpdateList()
                 }
                 //sheet 的作用就是，当给定一个bool值的时候，如果为真的时候，就呈现一个表，这个表可以是一个视图
                 //sheet还有三个参数，对应：呈现的样式，sheet闭合的样式，以及内容闭合

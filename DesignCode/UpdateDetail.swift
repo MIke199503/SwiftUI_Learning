@@ -11,13 +11,17 @@ struct UpdateDetail: View {
     var update:Update = updateData[0]
     var body: some View {
         List {
-            VStack {
+            VStack(spacing: 10){
                     Image(update.image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit )
+                        .frame(maxWidth:.infinity)
                     Text(update.text)
+                        .frame(maxWidth:.infinity,alignment: .leading)
                 }
-            .navigationBarTitle(update.title)
+            .navigationBarTitle(update.title)//设置navigation进来的标题
         }
-        .listStyle(PlainListStyle())
+        .listStyle(DefaultListStyle()) //设置list的样式，主要是元素之间的间隔问题，
     }
 }
 
@@ -26,3 +30,5 @@ struct UpdateDetail_Previews: PreviewProvider {
         UpdateDetail()
     }
 }
+
+

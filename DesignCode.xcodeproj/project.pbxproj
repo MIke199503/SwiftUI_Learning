@@ -15,6 +15,7 @@
 		DD34676F2548577D00A4A4BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD34676E2548577D00A4A4BA /* Assets.xcassets */; };
 		DD3467722548577D00A4A4BA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD3467712548577D00A4A4BA /* Preview Assets.xcassets */; };
 		DD8F636E254D3517009B583C /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8F636D254D3517009B583C /* MenuView.swift */; };
+		DDBD821625629AA2001A6756 /* UpdateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD821525629AA2001A6756 /* UpdateStore.swift */; };
 		DDFC52CC256041B300FA3584 /* UpdateList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFC52CB256041B300FA3584 /* UpdateList.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		DD3467712548577D00A4A4BA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD3467732548577D00A4A4BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD8F636D254D3517009B583C /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		DDBD821525629AA2001A6756 /* UpdateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateStore.swift; sourceTree = "<group>"; };
 		DDFC52CB256041B300FA3584 /* UpdateList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,6 +71,7 @@
 				DD8F636D254D3517009B583C /* MenuView.swift */,
 				DDFC52CB256041B300FA3584 /* UpdateList.swift */,
 				DD19D2BE2560F80500A2BE50 /* UpdateDetail.swift */,
+				DDBD821525629AA2001A6756 /* UpdateStore.swift */,
 				DD34676E2548577D00A4A4BA /* Assets.xcassets */,
 				DD3467732548577D00A4A4BA /* Info.plist */,
 				DD3467702548577D00A4A4BA /* Preview Content */,
@@ -157,6 +160,7 @@
 				DD34676D2548577C00A4A4BA /* ContentView.swift in Sources */,
 				DD8F636E254D3517009B583C /* MenuView.swift in Sources */,
 				DDFC52CC256041B300FA3584 /* UpdateList.swift in Sources */,
+				DDBD821625629AA2001A6756 /* UpdateStore.swift in Sources */,
 				DD149577254FE5B000740114 /* Home.swift in Sources */,
 				DD252A022552CF0300C6D615 /* HomeView.swift in Sources */,
 				DD34676B2548577C00A4A4BA /* DesignCodeApp.swift in Sources */,
