@@ -101,7 +101,7 @@ struct ContentView: View {
             /*gesture对应就是手势操作，draggesture：拖拽，onchanged就是当数据发生改变，我们就可以获得数据value，
              将value数据的值转换一下，给到viewstale变量,onended就是当你的拖拽结束后的操作，这里的.zero,就是，我们回到我们默认的位置。*/
 
-            BottomCardView()
+            BottomCardView(show: $showCard)
                 .offset(x: 0, y: self.showCard ? 360 : 1000)
                 .offset(y: self.bottomState.height)
                 .blur(radius: self.show ? 20 : 0)
@@ -201,6 +201,7 @@ struct TitleView: View {
 }
 
 struct BottomCardView: View {
+    @Binding var show:Bool
     var body: some View {
         VStack(spacing:20){
             Rectangle()
@@ -211,6 +212,25 @@ struct BottomCardView: View {
                 .multilineTextAlignment(.center)//文字居中，
                 .font(.subheadline)//subheadline 副标题，默认字号15
                 .lineSpacing(4) // 行间距
+            HStack(spacing: 20.0) {
+                RingView(color1: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), color2: #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), percent: 78, width: 88, height: 88, show: $show)
+                    .animation(Animation.easeInOut.delay(0.3))
+                
+                VStack(alignment: .leading, spacing: 8.0) {
+                    Text("SwiftUI").fontWeight(.bold)
+                    Text("12 of 12 sections complete\n 10 hours speet so far")
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .lineSpacing(4)
+                    
+                }
+                .padding(20)
+                .background(Color.white)
+                .cornerRadius(20)
+                .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 10  )
+                
+            }
+            
             Spacer()
         }
         .padding(.top,8)
@@ -219,6 +239,8 @@ struct BottomCardView: View {
         .background(Color.white)
         .cornerRadius(30)
         .shadow(radius: 20 )
+        
+        
 
     }
 }
