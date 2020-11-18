@@ -28,7 +28,6 @@ struct TabBar_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             TabBar().previewDevice("iphone 8 ")
-            TabBar().previewDevice("iphone XS max ")
                     //在不同的设备上进行预览
         }
     }
