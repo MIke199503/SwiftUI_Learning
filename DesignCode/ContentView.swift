@@ -213,8 +213,8 @@ struct BottomCardView: View {
                 .font(.subheadline)//subheadline 副标题，默认字号15
                 .lineSpacing(4) // 行间距
             HStack(spacing: 20.0) {
-                RingView(color1: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), color2: #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), percent: 78, width: 88, height: 88, show: $show)
-                    .animation(Animation.easeInOut.delay(0.3))
+                RingView(color1: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), color2: #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), percent: 58, width: 88, height: 88, show: $show)
+//                    .animation(Animation.easeInOut.delay(0.1))
                 
                 VStack(alignment: .leading, spacing: 8.0) {
                     Text("SwiftUI").fontWeight(.bold)

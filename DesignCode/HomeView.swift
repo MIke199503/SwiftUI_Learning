@@ -17,7 +17,9 @@ struct HomeView: View {
         VStack {
             HStack {
                 Text("Watching")
-                    .font(.system(size: 28,weight:.bold))
+//                    .font(.system(size: 28,weight:.bold))
+                    .modifier(customFontModifier(size:28))
+                    //当font和modifier两个修饰器都对字体进行操作的时候，font的优先级会大于modifier的优先级。
                 Spacer()
                 
                 AvatarView(showProfile: $showProfile)
@@ -43,21 +45,11 @@ struct HomeView: View {
             .padding(.leading,14)
             .padding(.top,30)
             
-            HStack(spacing: 12.0) {
-                RingView(color1: #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), color2: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), percent: 68, width: 44, height: 44, show: .constant(true))
-                VStack(alignment: .leading, spacing: 4.0) {
-                    Text("6 minutes left")
-                        .font(.subheadline)
-                        .fontWeight(.bold)
-                    Text("Watched 10 mins today")
-                        .font(.caption)
-                }
+            ScrollView(.horizontal, showsIndicators:false) {
+                WatchRingsView()
+                    .padding(.horizontal,30)
+                    .padding(.bottom,30)
             }
-            .padding(8)
-            .background(Color.white)
-            .cornerRadius(20)
-            .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 20 )
-            .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1 )
             
             
             ScrollView(.horizontal,showsIndicators
@@ -159,3 +151,46 @@ let sectionData = [
                     Section(title: "Build a SwiftUi App ", text: "20 Sections", logo: "Logo2", image: Image("Card2"), color: Color("card2")),
                     Section(title: "SwiftUI Advance", text: "20 Sections", logo: "Logo3", image: Image("Card3"), color: Color("card3"))
                    ]
+
+struct WatchRingsView: View {
+    var body: some View {
+        HStack(spacing: 30.0) {
+            HStack(spacing: 12.0) {
+                RingView(color1: #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1), color2: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), percent: 68, width: 44, height: 44, show: .constant(true))
+                VStack(alignment: .leading, spacing: 4.0) {
+                    Text("6 minutes left")
+                        .bold()
+                        .modifier(FontModifier(style:.subheadline))
+                    
+                    Text("Watched 10 mins today")
+                        .modifier(FontModifier(style:.caption))
+                    
+                }
+                .modifier(FontModifier())
+            }
+            .padding(8)
+            .background(Color.white)
+            .cornerRadius(20)
+            .modifier(ShadowModifier())
+            //这里的modifier也是一个修饰器的，shadowmodifier是我ShadowModifier.swift里面的方法
+            
+            
+            HStack(spacing: 12.0) {
+                RingView(color1: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), color2: #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1), percent: 54, width: 32, height: 32, show: .constant(true))
+            }
+            .padding(8)
+            .background(Color.white)
+            .cornerRadius(20)
+            .modifier(ShadowModifier())
+            
+            HStack(spacing: 12.0) {
+                RingView(color1: #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1), color2: #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1), percent: 32, width: 32, height: 32, show: .constant(true))
+            }
+            .padding(8)
+            .background(Color.white)
+            .cornerRadius(20)
+            .modifier(ShadowModifier())
+            
+        }
+    }
+}

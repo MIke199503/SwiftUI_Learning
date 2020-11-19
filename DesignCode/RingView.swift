@@ -19,6 +19,8 @@ struct RingView: View {
         let multiplier = width / 44 //不能放在外面去是因为初始化是同时进行的，所以无法一边创建的时候，一边使用。
         let process = 1 - (percent / 100)
         
+        
+        //这里貌似不用return也可以，不知道为什么在教程中使用了return。
         return ZStack {
             Circle()
                 .stroke(Color.black.opacity(0.1),style: StrokeStyle(lineWidth:5 * multiplier))
@@ -35,7 +37,7 @@ struct RingView: View {
                 .rotation3DEffect(Angle(degrees: 180),axis: (x: 1.0, y: 0, z: 0))
                 .frame(width: width, height: height )
                 .shadow(color: Color(color2).opacity(0.1), radius: 3 * multiplier, x: 0, y: 3 * multiplier )
-//                .animation(Animation.easeInOut)
+//                .animation(Animation.easeInOut.delay(0.3))
             
             //这里取消掉，是因为在contentView中，我们设置了动画，contentView为父视图，在父视图使用动画，为应用于子视图的所有
             //但是如果子视图自己有，那么子视图就会优于父视图的动画。
