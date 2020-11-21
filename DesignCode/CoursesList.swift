@@ -10,36 +10,52 @@ import SwiftUI
 struct CourseList: View {
 
     @State var courses = courseData
+    @State var active = false
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 30.0) {
-                Text("Courses")
-                    .font(.largeTitle).bold()
-                    .frame(maxWidth:.infinity,alignment: .leading)
-                    .padding(.leading,30)
-                    .padding(.top ,30)
-                
-                //这里传进去的是course的索引值，id就是使用传进去的course的索引UUID()
-                ForEach(self.courses.indices,id:\.self)  { index in
-                    GeometryReader {geometry in
-                        CourseView(show: self.$courses[index].show,course: self.courses[index])
-                            .offset(y:self.courses[index].show ? -geometry.frame(in: .global).minY:0)//当点击的时候，就去到最上方
+        ZStack {
+            Color.black.opacity(active ? 0.5 : 0)
+                .animation(.linear)
+                .edgesIgnoringSafeArea(.all)
+            //设置背景底色，这里我记录一下，如果想要背景色的话，使用color就可以了，因为color不会占据一个视图空间，相当直接将父视图染成黑色的。
+            ScrollView {
+                VStack(spacing: 30.0) {
+                    Text("Courses")
+                        .font(.largeTitle).bold()
+                        .frame(maxWidth:.infinity,alignment: .leading)
+                        .padding(.leading,30)
+                        .padding(.top ,30)
+                        .blur(radius: active ? 20 : 0)
+                    
+                    //我自己的理解：这里传进去的是course的索引值，id就是使用传进去的course的索引UUID()
+                    ForEach(self.courses.indices,id:\.self)  { index in
+                        GeometryReader {geometry in
+                            CourseView(show: self.$courses[index].show,course: self.courses[index], active: $active)
+                                .offset(y:self.courses[index].show ? -geometry.frame(in: .global).minY:0)//当点击的时候，就去到最上方
+                        }
+    //                    .frame(height: self.courses[index].show ? screen.height : 280)
+                        .frame(height:280)
+                        //如果在这里使用frame，因为在geometry当中，所以，当开始拓展的时候，geometry会把你拓展开的，进行一个大小计算，所以会把其他的推开来
+                        //如果你想要的就是这种推开的效果，那OK，不想要的话，首先我们将geometry这里设置为固定的大小，然后可以看一下CourseView的定义中，对应的注释部分，
+                        .frame(maxWidth: self.courses[index].show ? .infinity:screen.width - 60)
+                        .zIndex(self.courses[index].show ? 1 : 0) // 我的理解就是如果是1 ，就到最前面来，如果不是就在后面。
                     }
-//                    .frame(height: self.courses[index].show ? screen.height : 280)
-                    .frame(height:280)
-                    //如果在这里使用frame，因为在geometry当中，所以，当开始拓展的时候，geometry会把你拓展开的，进行一个大小计算，所以会把其他的推开来
-                    //如果你想要的就是这种推开的效果，那OK，不想要的话，首先我们将geometry这里设置为固定的大小，然后可以看一下CourseView的定义中，对应的注释部分，
-                    .frame(maxWidth: self.courses[index].show ? .infinity:screen.width - 60)
                 }
+                .frame(width: screen.width)
+                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             }
-            .frame(width: screen.width)
-            .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+            .statusBar(hidden: active ? true : false)
+            //statusBar就是设置是否隐藏顶部的信号时间信息，
+            .animation(.linear)
         }
-        
     }
 }
-
+/*
+ 这里单独来记录一下关于在上方的active绑定的逻辑，
+ 首先active的作用其实很简单，就是隐藏我们的statusBar，但是，courseView在我们的ScrollView中的，相当于数据在内部，我们想要在外部使用这个数据，就没办法了
+ 我们就需要创建一个binding。在定义中，我们创建一个绑定，然后每次点击的时候，就要反转，我们还要将这个信息传递到外面来
+ 我们就在主视图的外面，创建一个状态量，因为binding其实也算是一个state，然后在使用CourseView的时候，传递绑定参数，也就是active:$active，相当将定义中的active和外面的active的值进行一个绑定，这样，当里面的active发生变化的时候，外面的active的值也会跟着变化。然后我们就是用外面的这个active来决定是否隐藏statusbar。
+ */
 struct CourseList_Previews: PreviewProvider {
     static var previews: some View {
         CourseList()
@@ -49,6 +65,8 @@ struct CourseList_Previews: PreviewProvider {
 struct CourseView: View {
     @Binding var show:Bool
     var course : Course
+    @Binding var active:Bool
+    
     
     var body: some View {
         ZStack(alignment:.top) {
@@ -111,6 +129,7 @@ struct CourseView: View {
 
             .onTapGesture {
                 self.show.toggle()
+                self.active.toggle()
             }
         }
         .frame(height:show ? screen.height : 280)
