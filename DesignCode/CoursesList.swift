@@ -10,12 +10,16 @@ import SwiftUI
 struct CourseList: View {
 
     @State var courses = courseData
-    @State var active = false
+    @State var active = false // 是否有视图进行展开
+    @State var activeIndex = -1 // 展开的是第一个元素
+    @State var activeView = CGSize.zero
     
     var body: some View {
         ZStack {
-            Color.black.opacity(active ? 0.5 : 0)
+            Color.black
+                .opacity(Double(self.activeView.height / 500))
                 .animation(.linear)
+                
                 .edgesIgnoringSafeArea(.all)
             //设置背景底色，这里我记录一下，如果想要背景色的话，使用color就可以了，因为color不会占据一个视图空间，相当直接将父视图染成黑色的。
             ScrollView {
@@ -30,8 +34,22 @@ struct CourseList: View {
                     //我自己的理解：这里传进去的是course的索引值，id就是使用传进去的course的索引UUID()
                     ForEach(self.courses.indices,id:\.self)  { index in
                         GeometryReader {geometry in
-                            CourseView(show: self.$courses[index].show,course: self.courses[index], active: $active)
-                                .offset(y:self.courses[index].show ? -geometry.frame(in: .global).minY:0)//当点击的时候，就去到最上方
+                            ZStack {
+                                CourseView(
+                                        show: self.$courses[index].show,
+                                        course: self.courses[index],
+                                        active: $active,
+                                        index: index,
+                                        activeindex: self.$activeIndex,
+                                        activeView: self.$activeView
+                                            )
+                                    .offset(y:self.courses[index].show ? -geometry.frame(in: .global).minY:0)//当点击的时候，就去到最上方
+                                    .opacity(self.activeIndex != index && self.active ? 0 : 1)
+                                // 如果展开的元素与当前元素不对应，并且此时正属于展开状态的话，就透明，否则不透明。
+                                //简单来说，就是：当有东西展开，并且自己不是那个展开的人时，就隐藏，否则显示。
+                                    .scaleEffect(self.activeIndex != index && self.active ?  0.5 : 1 )
+                                    .offset(x:self.activeIndex != index && self.active ? screen.width : 0)
+                            }
                         }
     //                    .frame(height: self.courses[index].show ? screen.height : 280)
                         .frame(height:280)
@@ -66,7 +84,10 @@ struct CourseView: View {
     @Binding var show:Bool
     var course : Course
     @Binding var active:Bool
-    
+    var index : Int //用于获取自己在视图中的index
+    @Binding var activeindex : Int //传递自己是不是被展开了。
+    @Binding var activeView : CGSize // 存储拖拽数据
+     
     
     var body: some View {
         ZStack(alignment:.top) {
@@ -126,17 +147,63 @@ struct CourseView: View {
             .background(Color(course.color))
             .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             .shadow(color: Color(course.color).opacity(0.3), radius:20, x: 0, y: 20)
-
+            
+            .gesture(
+                show ?
+                DragGesture()
+                    .onChanged{ value in
+                        guard value.translation.height < 300 else {return }
+                        guard value.translation.height > 0 else{return}
+                        
+                        self.activeView = value.translation
+                            
+                         }
+                    .onEnded{ value in
+                        if self.activeView.height > 50{
+                            self.show = false
+                            self.active = false
+                            self.activeindex = -1
+                        }
+                        self.activeView = .zero }
+                : nil
+            )
             .onTapGesture {
                 self.show.toggle()
                 self.active.toggle()
+                if self.show {
+                    self.activeindex = self.index
+                }else{
+                    self.activeindex = -1
+                }
             }
         }
         .frame(height:show ? screen.height : 280)
         //续上方geometry的内容，在我们的CourseView中，根据frame来变化。至于为什么这样就可以了，我暂时也没有搞明白为什么。
         //但是这样做，会引发一个新的问题，就是因为我们限制了geometry的大小，当我们点击之后，前面的展开会被后面的进行一个覆盖。
+        .scaleEffect(1 - self.activeView.height / 1000)
+        .rotation3DEffect(Angle(degrees: Double(self.activeView.height / 10 )),axis: (x: 0.0, y: 10.0, z: 0.0))
+        //.hueRotation(Angle(degrees: Double(self.activeView.height)))  //这个动校没啥用的感觉。
         .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
         .edgesIgnoringSafeArea(.all )
+        .gesture(
+            show ?
+            DragGesture()
+                .onChanged{ value in
+                    guard value.translation.height < 300 else {return }
+                    guard value.translation.height > 0 else{return}
+                    
+                    self.activeView = value.translation
+                        
+                     }
+                .onEnded{ value in
+                    if self.activeView.height > 50{
+                        self.show = false
+                        self.active = false
+                        self.activeindex = -1
+                    }
+                    self.activeView = .zero }
+            : nil
+        )
     }
 }
 
