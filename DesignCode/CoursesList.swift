@@ -19,7 +19,6 @@ struct CourseList: View {
             Color.black
                 .opacity(Double(self.activeView.height / 500))
                 .animation(.linear)
-                
                 .edgesIgnoringSafeArea(.all)
             //设置背景底色，这里我记录一下，如果想要背景色的话，使用color就可以了，因为color不会占据一个视图空间，相当直接将父视图染成黑色的。
             ScrollView {
@@ -38,7 +37,7 @@ struct CourseList: View {
                                 CourseView(
                                         show: self.$courses[index].show,
                                         course: self.courses[index],
-                                        active: $active,
+                                        active: self.$active,
                                         index: index,
                                         activeindex: self.$activeIndex,
                                         activeView: self.$activeView
@@ -98,17 +97,14 @@ struct CourseView: View {
                 Text("This course is unlike any other. We care about design and want to make sure that you get better at it in the process. It was written for designers and developers who are passionate about collaborating and building real apps for iOS and macOS. While it's not one codebase for all apps, you learn once and can apply the techniques and controls to all platforms with incredible quality, consistency and performance. It's beginner-friendly, but it's also packed with design tricks and efficient workflows for building great user interfaces and interactions.")
                 Text( "Minimal coding experience required, such as in HTML and CSS .Please note that Xcode 11 and Catalina are essential. Once you get everything installed, it'll get lot friendlier! I added a bunch of troubleshoots at the end of this page to help you navigate the issues you might encounter.")
             }
-            .padding(30)
-            .frame(maxWidth:show ? .infinity : screen.width - 60,
-                   maxHeight:show ? .infinity : 280,alignment:.top)
-            .offset(y: show ? 460 : 0 )
-            .background(Color.white )
-            .background(RoundedRectangle(cornerRadius :  30 ,style:.continuous))
-            .shadow(color:Color.black.opacity(0.2),radius:20,x:0,y:20)
-            .opacity(show ? 1 : 0)
-
-            
-            
+                .padding(30)
+                .frame(maxWidth:show ? .infinity : screen.width - 60,
+                       maxHeight:show ? .infinity : 280,alignment:.top)
+                .offset(y: show ? 460 : 0 )
+                .background(Color.white )
+                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                .shadow(color:Color.black.opacity(0.2),radius:20,x:0,y:20)
+                .opacity(show ? 1 : 0)
             VStack {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 8.0) {
@@ -147,7 +143,6 @@ struct CourseView: View {
             .background(Color(course.color))
             .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             .shadow(color: Color(course.color).opacity(0.3), radius:20, x: 0, y: 20)
-            
             .gesture(
                 show ?
                 DragGesture()
@@ -175,6 +170,15 @@ struct CourseView: View {
                 }else{
                     self.activeindex = -1
                 }
+                
+            }
+            if show {
+//                CourseDetail(course: course, show: $show,active: $active,activeIndex: $activeindex)
+//                    .background(Color.white)
+//                    .animation(nil)
+                /*
+                 这里只是展现了另外一种对信息展开的方式，一种是直接在原界面展开，一种是新试图展开。当注释掉上方的部分时，就是使用的原界面展开，取消上方的注释就是用新试图展开。
+                 */
             }
         }
         .frame(height:show ? screen.height : 280)
