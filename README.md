@@ -17,3 +17,6 @@
 时间点：2020-12-7日，学习了一部分URLSESSION内容，学习参考资料：
 第一个：微博实战，后续会学：https://www.bilibili.com/video/BV1fC4y1s7Js?from=search&seid=329977148794356272
 第二个：官网资料：https://developer.apple.com/documentation/foundation/urlsession
+
+时间点：2020-12-8日，问题解决，安全策略问题，详见：Data.swift
+补充学习：@escaping 逃逸闭包，参考学习资料。https://www.cnblogs.com/wuyang-li/p/10973025.html
