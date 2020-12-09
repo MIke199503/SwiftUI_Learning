@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -42,6 +42,9 @@
 		DD40495C257D0372002BDB74 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD40495B257D0372002BDB74 /* Data.swift */; };
 		DD40495F257D065D002BDB74 /* PostList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD40495E257D065D002BDB74 /* PostList.swift */; };
 		DD66E4662563E7DD00BD8CAE /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD66E4652563E7DD00BD8CAE /* TabBar.swift */; };
+		DD73FECA25810106001E3845 /* Contentful in Frameworks */ = {isa = PBXBuildFile; productRef = DD73FEC925810106001E3845 /* Contentful */; };
+		DD73FECD258104B2001E3845 /* CourseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD73FECC258104B2001E3845 /* CourseStore.swift */; };
+		DD77B5DB2580F538003E970C /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD77B5DA2580F538003E970C /* DataStore.swift */; };
 		DD8F636E254D3517009B583C /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8F636D254D3517009B583C /* MenuView.swift */; };
 		DD93D3152567CFE9006ACB4E /* CoursesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD93D3142567CFE9006ACB4E /* CoursesList.swift */; };
 		DDBD821625629AA2001A6756 /* UpdateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD821525629AA2001A6756 /* UpdateStore.swift */; };
@@ -86,6 +89,8 @@
 		DD40495B257D0372002BDB74 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		DD40495E257D065D002BDB74 /* PostList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostList.swift; sourceTree = "<group>"; };
 		DD66E4652563E7DD00BD8CAE /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		DD73FECC258104B2001E3845 /* CourseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseStore.swift; sourceTree = "<group>"; };
+		DD77B5DA2580F538003E970C /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		DD8F636D254D3517009B583C /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		DD93D3142567CFE9006ACB4E /* CoursesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesList.swift; sourceTree = "<group>"; };
 		DDBD821525629AA2001A6756 /* UpdateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateStore.swift; sourceTree = "<group>"; };
@@ -97,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD73FECA25810106001E3845 /* Contentful in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,11 +172,13 @@
 				DD149576254FE5B000740114 /* Home.swift */,
 				DD252A012552CF0300C6D615 /* HomeView.swift */,
 				DD93D3142567CFE9006ACB4E /* CoursesList.swift */,
+				DD73FECC258104B2001E3845 /* CourseStore.swift */,
 				DD8F636D254D3517009B583C /* MenuView.swift */,
 				DDFC52CB256041B300FA3584 /* UpdateList.swift */,
 				DD19D2BE2560F80500A2BE50 /* UpdateDetail.swift */,
 				DDBD821525629AA2001A6756 /* UpdateStore.swift */,
 				DD40495B257D0372002BDB74 /* Data.swift */,
+				DD77B5DA2580F538003E970C /* DataStore.swift */,
 				DD322DF2257FA6EA0039BC70 /* Test.swift */,
 				DD40495E257D065D002BDB74 /* PostList.swift */,
 				DD66E4652563E7DD00BD8CAE /* TabBar.swift */,
@@ -206,6 +214,9 @@
 			dependencies = (
 			);
 			name = DesignCode;
+			packageProductDependencies = (
+				DD73FEC925810106001E3845 /* Contentful */,
+			);
 			productName = DesignCode;
 			productReference = DD3467672548577C00A4A4BA /* DesignCode.app */;
 			productType = "com.apple.product-type.application";
@@ -233,6 +244,9 @@
 				Base,
 			);
 			mainGroup = DD34675E2548577C00A4A4BA;
+			packageReferences = (
+				DD73FEC825810106001E3845 /* XCRemoteSwiftPackageReference "contentful.swift" */,
+			);
 			productRefGroup = DD3467682548577C00A4A4BA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -282,11 +296,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				88FF857D2564C99B00E93397 /* RingView.swift in Sources */,
+				DD77B5DB2580F538003E970C /* DataStore.swift in Sources */,
 				DD15BE3A2566294B0006F0A0 /* Modifiers.swift in Sources */,
 				DD322DF3257FA6EA0039BC70 /* Test.swift in Sources */,
 				DD66E4662563E7DD00BD8CAE /* TabBar.swift in Sources */,
 				DD19D2BF2560F80500A2BE50 /* UpdateDetail.swift in Sources */,
 				DD93D3152567CFE9006ACB4E /* CoursesList.swift in Sources */,
+				DD73FECD258104B2001E3845 /* CourseStore.swift in Sources */,
 				DD34676D2548577C00A4A4BA /* ContentView.swift in Sources */,
 				DD8F636E254D3517009B583C /* MenuView.swift in Sources */,
 				DDFC52CC256041B300FA3584 /* UpdateList.swift in Sources */,
@@ -484,6 +500,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DD73FEC825810106001E3845 /* XCRemoteSwiftPackageReference "contentful.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/contentful/contentful.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DD73FEC925810106001E3845 /* Contentful */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD73FEC825810106001E3845 /* XCRemoteSwiftPackageReference "contentful.swift" */;
+			productName = Contentful;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DD34675F2548577C00A4A4BA /* Project object */;
 }

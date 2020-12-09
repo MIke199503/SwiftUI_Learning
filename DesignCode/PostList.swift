@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct PostList: View {
-    @State var posts:[Post] = []
+    @ObservedObject var store = dataStore()
     
     var body: some View {
-        List(posts) { post in
-            Text(post.title)
-
-        }
-        .onAppear{
-            //当试图可见的时候，执行以下的内容，
-            Api().getPosts{ (posts) in
-                self.posts = posts
-
+        List(store.posts) { post in
+            VStack(alignment: .leading, spacing: 8.0) {
+                Text(post.title)
+                    .font(.system(.title, design: .serif))
+                    .bold()
+                Text(post.body)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
             }
+            
         }
 
     }

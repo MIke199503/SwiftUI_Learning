@@ -22,7 +22,8 @@ class Api{
 //        let url = URL(string: "http://jsonplaceholder.typicode.com/posts") //第二种方式，需要在后续中加上强制解包
         
         let da = URLSession.shared.dataTask(with: url) { (data, _, _) in
-            let posts = try! JSONDecoder().decode([Post].self,from: data!)
+            guard let data = data else{ return }
+            let posts = try! JSONDecoder().decode([Post].self,from: data)
             
             DispatchQueue.main.async {
                 completion(posts)
