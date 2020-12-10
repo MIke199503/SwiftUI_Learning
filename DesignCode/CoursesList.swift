@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CourseList: View {
-
-    @State var courses = courseData
+    @ObservedObject var store = CourseStore()
+//    @State var courses = courseData   //在第37课取消使用这种固化的方式，采用cms来管理数据，上方为替代方案
     @State var active = false // 是否有视图进行展开
     @State var activeIndex = -1 // 展开的是第一个元素
     @State var activeView = CGSize.zero
@@ -21,6 +21,7 @@ struct CourseList: View {
                 .animation(.linear)
                 .edgesIgnoringSafeArea(.all)
             //设置背景底色，这里我记录一下，如果想要背景色的话，使用color就可以了，因为color不会占据一个视图空间，相当直接将父视图染成黑色的。
+                
             ScrollView {
                 VStack(spacing: 30.0) {
                     Text("Courses")
@@ -31,18 +32,18 @@ struct CourseList: View {
                         .blur(radius: active ? 20 : 0)
                     
                     //我自己的理解：这里传进去的是course的索引值，id就是使用传进去的course的索引UUID()
-                    ForEach(self.courses.indices,id:\.self)  { index in
+                    ForEach(store.course.indices,id:\.self)  { index in
                         GeometryReader {geometry in
                             ZStack {
                                 CourseView(
-                                        show: self.$courses[index].show,
-                                        course: self.courses[index],
+                                    show: self.$store.course[index].show,
+                                    course: self.store.course[index],
                                         active: self.$active,
                                         index: index,
                                         activeindex: self.$activeIndex,
                                         activeView: self.$activeView
                                             )
-                                    .offset(y:self.courses[index].show ? -geometry.frame(in: .global).minY:0)//当点击的时候，就去到最上方
+                                .offset(y:self.store.course[index].show ? -geometry.frame(in: .global).minY:0)//当点击的时候，就去到最上方
                                     .opacity(self.activeIndex != index && self.active ? 0 : 1)
                                 // 如果展开的元素与当前元素不对应，并且此时正属于展开状态的话，就透明，否则不透明。
                                 //简单来说，就是：当有东西展开，并且自己不是那个展开的人时，就隐藏，否则显示。
@@ -54,8 +55,8 @@ struct CourseList: View {
                         .frame(height:280)
                         //如果在这里使用frame，因为在geometry当中，所以，当开始拓展的时候，geometry会把你拓展开的，进行一个大小计算，所以会把其他的推开来
                         //如果你想要的就是这种推开的效果，那OK，不想要的话，首先我们将geometry这里设置为固定的大小，然后可以看一下CourseView的定义中，对应的注释部分，
-                        .frame(maxWidth: self.courses[index].show ? .infinity:screen.width - 60)
-                        .zIndex(self.courses[index].show ? 1 : 0) // 我的理解就是如果是1 ，就到最前面来，如果不是就在后面。
+                        .frame(maxWidth: self.store.course[index].show ? .infinity:screen.width - 60)
+                        .zIndex(self.store.course[index].show ? 1 : 0) // 我的理解就是如果是1 ，就到最前面来，如果不是就在后面。
                     }
                 }
                 .frame(width: screen.width)
