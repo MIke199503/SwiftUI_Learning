@@ -25,3 +25,6 @@
 
 时间点：2020-12-9日，学习到36，35课没有太多内容，就是数据整理，其中涉及到observeableobject 和publish。参考学习资料：https://www.cnblogs.com/xiaoniuzai/p/11417123.html
 第36课，学习contentful，内容讲的很快，语法有更新，所以编写的代码报错。暂停往后学习，先了解一下什么contentful，还有cms。
+
+时间点：2020-12-10日，学习到37课，上节课遗留的问题，基本解决，对于cms和contenful有了大概的认知，需要补全学习笔记。
+
