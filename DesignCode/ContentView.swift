@@ -236,7 +236,7 @@ struct BottomCardView: View {
         .padding(.top,8)
         .padding(.horizontal,20)
         .frame(maxWidth: .infinity)//infinity：无限，这里扩充到界面两边，应对不同的device
-        .background(Color.white)
+        .background(BlurView(style: .systemThinMaterial))
         .cornerRadius(30)
         .shadow(radius: 20 )
         
