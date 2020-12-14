@@ -27,10 +27,11 @@ struct HomeView: View {
                     
                     Button(action: {self.showUpdate.toggle()}) {
                         Image(systemName: "bell")
-                            .renderingMode(.original)
+                            .foregroundColor(.primary)
+//                            .renderingMode(.original)
                             .font(.system(size:16,weight:.medium))
                             .frame(width: 36, height: 36)
-                            .background(Color.white)
+                            .background(Color("background3"))
                             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                             .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1 )
                             .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 20 )
@@ -89,6 +90,7 @@ struct HomeView: View {
                
                 Spacer()
             }
+            .frame(width:screen.width)
         }
     }
 }
@@ -186,7 +188,7 @@ struct WatchRingsView: View {
                 .modifier(FontModifier())
             }
             .padding(8)
-            .background(Color.white)
+            .background(Color("background3"))
             .cornerRadius(20)
             .modifier(ShadowModifier())
             //这里的modifier也是一个修饰器的，shadowmodifier是我ShadowModifier.swift里面的方法
@@ -196,7 +198,7 @@ struct WatchRingsView: View {
                 RingView(color1: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), color2: #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1), percent: 54, width: 32, height: 32, show: .constant(true))
             }
             .padding(8)
-            .background(Color.white)
+            .background(Color("background3"))
             .cornerRadius(20)
             .modifier(ShadowModifier())
             
@@ -204,7 +206,7 @@ struct WatchRingsView: View {
                 RingView(color1: #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1), color2: #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1), percent: 32, width: 32, height: 32, show: .constant(true))
             }
             .padding(8)
-            .background(Color.white)
+            .background(Color("background3"))
             .cornerRadius(20)
             .modifier(ShadowModifier())
             

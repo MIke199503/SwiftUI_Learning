@@ -40,7 +40,8 @@ struct MenuView: View {
             }
             .frame(maxWidth:.infinity)
             .frame(height:300)
-            .background(LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)), Color(#colorLiteral(red: 0.8705882353, green: 0.8941176471, blue: 0.9450980392, alpha: 1))]), startPoint: .top, endPoint: .bottom))
+//            .background(LinearGradient(gradient: Gradient(colors: [Color("background3"), Color("background3").opacity(0.6)]), startPoint: .top, endPoint: .bottom))
+            .background(BlurView(style: .systemThinMaterial))
             //gradient渐变色，可以在Gradient中加入更多的Color(color literal)加入更多的色值，
             .clipShape(
                

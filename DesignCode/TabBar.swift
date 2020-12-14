@@ -15,9 +15,9 @@ struct TabBar: View {
                 Image(systemName: "play.circle.fill")
                 Text("home")
             }
-            ContentView().tabItem {
+            CourseList().tabItem {
                 Image(systemName: "rectangle.stack.fill")
-                Text("Certificates")
+                Text("Courses")
             }
         }
         .edgesIgnoringSafeArea(.top)
@@ -27,8 +27,9 @@ struct TabBar: View {
 struct TabBar_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TabBar().previewDevice("iphone 8 ")
+//            TabBar().previewDevice("iphone 8 ")
                     //在不同的设备上进行预览
+            TabBar().environment(\.colorScheme, .dark)
         }
     }
 }
