@@ -3,8 +3,7 @@
 .
 第1，2阶段（0-40节课）观看的视频是B站上的：https://www.bilibili.com/video/BV1X7411R73g?p=1
 资源链接： https://pan.baidu.com/s/1vstHhnzhxDHC7pMjqupGKw 提取码: 7yi5（资源有点乱，有点看不懂，感觉第三阶段的资源比较全面。）
-.
-.
+
 第3阶段（41-60）观看的视频是A站上的：https://www.acfun.cn/v/ac15856717_1
 资源链接：https://pan.baidu.com/s/12RwPU9oQbcwuEx1SlAyAVA 提取码: 5h6d
 .
