@@ -53,7 +53,7 @@ struct LoginVIew: View {
                         .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
                         .padding(.leading)
                     
-                    TextField("Password".uppercased(), text: $email)
+                    SecureField("Password".uppercased(), text: $password)
                         .keyboardType(.emailAddress)
                         .font(.subheadline)
     //                    .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -67,7 +67,7 @@ struct LoginVIew: View {
             .clipShape(RoundedRectangle(cornerRadius: 30,style: .continuous))
             .shadow(color: Color.black.opacity(0.15), radius:20, x: 0, y: 20)
             .padding(.leading)
-            .offset(y: 460s)
+            .offset(y: 460)
             
         }.edgesIgnoringSafeArea(.all)
         
@@ -114,14 +114,16 @@ struct CoverView: View {
                     .offset(x: -150, y: -200)
                     .rotationEffect(Angle(degrees: show ? 360+90 : 90))
                     .blendMode(.plusDarker)
-                    .animation(Animation.linear(duration:120).repeatForever(autoreverses: false))
+//                    .animation(Animation.linear(duration:120).repeatForever(autoreverses: false))
+                    .animation(nil)
                     .onAppear{self.show = true}
                 
                 Image(uiImage: #imageLiteral(resourceName: "Blob"))
                     .offset(x: -200, y: -250)
                     .rotationEffect(Angle(degrees: self.show ? 360 : 0 ),anchor: .leading)//anchor,就是围绕什么旋转，屏幕的卯点
                     .blendMode(.overlay)
-                    .animation(Animation.linear(duration: 120).repeatForever(autoreverses: false))
+//                    .animation(Animation.linear(duration: 120).repeatForever(autoreverses: false))
+                    .animation(nil)
             }
         )
         
@@ -133,11 +135,13 @@ struct CoverView: View {
         .clipShape(RoundedRectangle(cornerRadius: 30,style: .continuous))
         
         .scaleEffect(self.isDragging ? 0.9 : 1 )
-        .animation(.timingCurve(0.2, 0.8, 0.2, 1,duration:0.8))
+//        .animation(.timingCurve(0.2, 0.8, 0.2, 1,duration:0.8))
+        .animation(nil)
         .rotation3DEffect(
             Angle(degrees: 5),
             axis: (x: ViewState.width, y: ViewState.height, z: 0.0)
         )
+        .animation(nil)
         .gesture(
             DragGesture()
                 .onChanged{ value in
