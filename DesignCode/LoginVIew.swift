@@ -8,68 +8,113 @@
 import SwiftUI
 
 struct LoginVIew: View {
-    @State var email  = ""
-    @State var password = ""
+    @State var email  = "" //用户名
+    @State var password = "" //密码
+    @State var isFocused = false // 是否获得焦点
+    @State var showAlert = false // 是否展示警告
+    @State var alertMessage = " Something "  //警告内容
     
-    
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    //这里是使用了UIKIT的方法，学习资料如下：https://zhuanlan.zhihu.com/p/210783615
     
     var body: some View {
        
-        ZStack(alignment: .top){
-            
+        ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
-            Color("background2")
-                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-                .edgesIgnoringSafeArea(.all)
-            CoverView()
             
-            VStack {
+            ZStack(alignment: .top){
+                Color("background2")
+                    .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                    .edgesIgnoringSafeArea(.all)
+                CoverView()
                 
+                VStack {
+                    HStack {
+                        Image(systemName: "person.crop.circle.fill")
+                            .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1)))
+                            .frame(width: 44, height: 44)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
+                            .padding(.leading)
+                        
+                        TextField("Your Email".uppercased(), text: $email)
+                            .keyboardType(.emailAddress)
+                            .font(.subheadline)
+        //                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.leading)
+                            .frame(height: 44)
+                            .onTapGesture {
+                                self.isFocused = true
+                            }
+                    }
+                    Divider()
+                        .padding(.leading,80)
+                    HStack {
+                        Image(systemName: "lock.fill")
+                            .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1)))
+                            .frame(width: 44, height: 44)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
+                            .padding(.leading)
+                        
+                        SecureField("Password".uppercased(), text: $password)
+                            .keyboardType(.default)
+                            .font(.subheadline)
+        //                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.leading)
+                            .frame(height: 44)
+                            .onTapGesture {
+                                self.isFocused = true
+                            }
+                    }
+                }
+                .frame(height:136)
+                .frame(maxWidth: .infinity)
+                .background(BlurView(style: .systemMaterial))
+                .clipShape(RoundedRectangle(cornerRadius: 30,style: .continuous))
+                .shadow(color: Color.black.opacity(0.15), radius:20, x: 0, y: 20)
+                .padding(.leading)
+                .offset(y: 460)
                 
                 HStack {
-                    Image(systemName: "person.crop.circle.fill")
-                        .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1)))
-                        .frame(width: 44, height: 44)
-                        .background(Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
-                        .padding(.leading)
-                    
-                    TextField("Your Email".uppercased(), text: $email)
-                        .keyboardType(.emailAddress)
+                    Text("Forgot password ? ")
                         .font(.subheadline)
-    //                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.leading)
-                        .frame(height: 44)
-                }
-                Divider()
-                    .padding(.leading,80)
-                HStack {
-                    Image(systemName: "lock.fill")
-                        .foregroundColor(Color(#colorLiteral(red: 0.6549019608, green: 0.7137254902, blue: 0.862745098, alpha: 1)))
-                        .frame(width: 44, height: 44)
-                        .background(Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 5)
-                        .padding(.leading)
                     
-                    SecureField("Password".uppercased(), text: $password)
-                        .keyboardType(.emailAddress)
-                        .font(.subheadline)
-    //                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.leading)
-                        .frame(height: 44)
+                    Spacer()
+                    
+                    Button(action: {
+                        self.showAlert = true
+                        self.hideKeyboard()
+                        self.isFocused = false
+                    }) {
+                        Text("Login in ")
+                    }
+                    .padding(12)
+                    .padding(.horizontal,30)
+                    .background(Color(#colorLiteral(red: 0, green: 0.7529411765, blue: 1, alpha: 1)))
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .shadow(color: Color(#colorLiteral(red: 0, green: 0.7529411765, blue: 1, alpha: 1)).opacity(0.3), radius: 20, x: 0, y: 20)
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text("Error"), message: Text(self.alertMessage), dismissButton: .default(Text("OK")))
+                    }
                 }
+                .frame(maxWidth: .infinity,maxHeight: .infinity,alignment: .bottom)
+                .padding()
+                
+                
             }
-            .frame(height:136)
-            .frame(maxWidth: .infinity)
-            .background(BlurView(style: .systemMaterial))
-            .clipShape(RoundedRectangle(cornerRadius: 30,style: .continuous))
-            .shadow(color: Color.black.opacity(0.15), radius:20, x: 0, y: 20)
-            .padding(.leading)
-            .offset(y: 460)
-            
-        }.edgesIgnoringSafeArea(.all)
+//            .edgesIgnoringSafeArea(.all)
+            .offset( y: self.isFocused ? -300 : 0 )
+            .animation(self.isFocused ? .easeOut : nil)
+            .onTapGesture {
+                self.isFocused = false
+                self.hideKeyboard()
+            }
+        }
         
     }
     
@@ -114,7 +159,7 @@ struct CoverView: View {
                     .offset(x: -150, y: -200)
                     .rotationEffect(Angle(degrees: show ? 360+90 : 90))
                     .blendMode(.plusDarker)
-//                    .animation(Animation.linear(duration:120).repeatForever(autoreverses: false))
+                    .animation(Animation.linear(duration:120).repeatForever(autoreverses: false))
                     .animation(nil)
                     .onAppear{self.show = true}
                 
@@ -122,7 +167,7 @@ struct CoverView: View {
                     .offset(x: -200, y: -250)
                     .rotationEffect(Angle(degrees: self.show ? 360 : 0 ),anchor: .leading)//anchor,就是围绕什么旋转，屏幕的卯点
                     .blendMode(.overlay)
-//                    .animation(Animation.linear(duration: 120).repeatForever(autoreverses: false))
+                    .animation(Animation.linear(duration: 120).repeatForever(autoreverses: false))
                     .animation(nil)
             }
         )
@@ -135,7 +180,7 @@ struct CoverView: View {
         .clipShape(RoundedRectangle(cornerRadius: 30,style: .continuous))
         
         .scaleEffect(self.isDragging ? 0.9 : 1 )
-//        .animation(.timingCurve(0.2, 0.8, 0.2, 1,duration:0.8))
+        .animation(.timingCurve(0.2, 0.8, 0.2, 1,duration:0.8))
         .animation(nil)
         .rotation3DEffect(
             Angle(degrees: 5),
