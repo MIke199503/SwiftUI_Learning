@@ -70,4 +70,10 @@
 
 时间点：2020-12-21日，学习到第48课，添加了登录界面的窗口，Textfiled 
 
-时间点：2020-12-22日，学习到第49课，添加了键盘的隐藏功能，（暂时没搞明白，为什么键盘的隐藏是那样的，感觉好麻烦。）和界面上挤，还有错误的报错问题，使用了alert
+时间点：2020-12-22日，学习到第49课，添加了键盘的隐藏功能，（这里有点蠢，Textfiled为什么不拓展一个隐藏键盘的属性呢？现在就还得去使用UIKIT。）和界面上挤（有点小瑕疵），还有错误的报错问题，使用了alert
+
+时间点：2020-12-23日，学习到第50课，使用lottie包来实现loading动画，但是咋说呢，这个UIViewRepresentable协议不是很明白，需要找时间再看看，还有dispatchQueue.main.asyncAfter也不是很熟悉，
+
+Swift的GCD学习资料：https://www.jianshu.com/p/8d4cc42b095b
+
+UIViewRepresentable学习资料：https://beta.segmentfault.com/a/1190000037510116

@@ -13,6 +13,7 @@ struct LoginVIew: View {
     @State var isFocused = false // 是否获得焦点
     @State var showAlert = false // 是否展示警告
     @State var alertMessage = " Something "  //警告内容
+    @State var isLoading = false
     
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -87,9 +88,17 @@ struct LoginVIew: View {
                     Spacer()
                     
                     Button(action: {
-                        self.showAlert = true
+                        
                         self.hideKeyboard()
                         self.isFocused = false
+                        self.isLoading = true
+                        
+                        //实现先转，再弹出警告框
+                        DispatchQueue.main.asyncAfter(deadline: .now()+2){
+                            self.isLoading = false
+                            self.showAlert = true
+                        }
+                        
                     }) {
                         Text("Login in ")
                     }
@@ -113,6 +122,10 @@ struct LoginVIew: View {
             .onTapGesture {
                 self.isFocused = false
                 self.hideKeyboard()
+            }
+            
+            if isLoading{
+                LoadingView()
             }
         }
         
