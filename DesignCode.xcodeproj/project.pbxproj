@@ -58,6 +58,7 @@
 		DDAF26F42584F5840057BD7C /* CourseDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAF26F32584F5840057BD7C /* CourseDetail.swift */; };
 		DDAF26F9258643A30057BD7C /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAF26F8258643A30057BD7C /* BlurView.swift */; };
 		DDBD821625629AA2001A6756 /* UpdateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBD821525629AA2001A6756 /* UpdateStore.swift */; };
+		DDE983812594B924008649FC /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE983802594B924008649FC /* SuccessView.swift */; };
 		DDFC52CC256041B300FA3584 /* UpdateList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFC52CB256041B300FA3584 /* UpdateList.swift */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +113,7 @@
 		DDAF26F32584F5840057BD7C /* CourseDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDetail.swift; sourceTree = "<group>"; };
 		DDAF26F8258643A30057BD7C /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		DDBD821525629AA2001A6756 /* UpdateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateStore.swift; sourceTree = "<group>"; };
+		DDE983802594B924008649FC /* SuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
 		DDFC52CB256041B300FA3584 /* UpdateList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -216,6 +218,7 @@
 				DDAF26F8258643A30057BD7C /* BlurView.swift */,
 				DD6525AE25937B94009A57F1 /* LottieView.swift */,
 				DD6525B125937FCC009A57F1 /* LoadingView.swift */,
+				DDE983802594B924008649FC /* SuccessView.swift */,
 				DD9869C32588E5EA00AA5E76 /* Buttons.swift */,
 				DD34676E2548577D00A4A4BA /* Assets.xcassets */,
 				DD15BE3C256655FA0006F0A0 /* Work_Sans */,
@@ -353,6 +356,7 @@
 				DD40495C257D0372002BDB74 /* Data.swift in Sources */,
 				DDBD821625629AA2001A6756 /* UpdateStore.swift in Sources */,
 				DD149577254FE5B000740114 /* Home.swift in Sources */,
+				DDE983812594B924008649FC /* SuccessView.swift in Sources */,
 				DD9869C42588E5EA00AA5E76 /* Buttons.swift in Sources */,
 				DD252A022552CF0300C6D615 /* HomeView.swift in Sources */,
 				DDAF26F9258643A30057BD7C /* BlurView.swift in Sources */,

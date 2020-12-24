@@ -14,7 +14,20 @@ struct LoginVIew: View {
     @State var showAlert = false // 是否展示警告
     @State var alertMessage = " Something "  //警告内容
     @State var isLoading = false
+    @State var isSuccess = false
     
+    func login() {
+        self.hideKeyboard()
+        self.isFocused = false
+        self.isLoading = true
+        
+        //实现先转，再弹出警告框·
+        DispatchQueue.main.asyncAfter(deadline: .now()+2){
+            self.isLoading = false
+//              self.showAlert = true
+            self.isSuccess = true
+        }
+    }
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
@@ -88,16 +101,7 @@ struct LoginVIew: View {
                     Spacer()
                     
                     Button(action: {
-                        
-                        self.hideKeyboard()
-                        self.isFocused = false
-                        self.isLoading = true
-                        
-                        //实现先转，再弹出警告框
-                        DispatchQueue.main.asyncAfter(deadline: .now()+2){
-                            self.isLoading = false
-                            self.showAlert = true
-                        }
+                        self.login()
                         
                     }) {
                         Text("Login in ")
@@ -126,6 +130,9 @@ struct LoginVIew: View {
             
             if isLoading{
                 LoadingView()
+            }
+            if isSuccess{
+                SuccessView()
             }
         }
         
