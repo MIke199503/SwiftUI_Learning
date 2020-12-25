@@ -50,6 +50,7 @@
 		DD73FECA25810106001E3845 /* Contentful in Frameworks */ = {isa = PBXBuildFile; productRef = DD73FEC925810106001E3845 /* Contentful */; };
 		DD73FECD258104B2001E3845 /* CourseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD73FECC258104B2001E3845 /* CourseStore.swift */; };
 		DD77B5DB2580F538003E970C /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD77B5DA2580F538003E970C /* DataStore.swift */; };
+		DD83BA832596152400129830 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD83BA822596152400129830 /* GoogleService-Info.plist */; };
 		DD8F636E254D3517009B583C /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8F636D254D3517009B583C /* MenuView.swift */; };
 		DD90B8A8258E1D0600400ED8 /* LoginVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD90B8A7258E1D0600400ED8 /* LoginVIew.swift */; };
 		DD93D3152567CFE9006ACB4E /* CoursesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD93D3142567CFE9006ACB4E /* CoursesList.swift */; };
@@ -106,6 +107,7 @@
 		DD66E4652563E7DD00BD8CAE /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		DD73FECC258104B2001E3845 /* CourseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseStore.swift; sourceTree = "<group>"; };
 		DD77B5DA2580F538003E970C /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		DD83BA822596152400129830 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DD8F636D254D3517009B583C /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		DD90B8A7258E1D0600400ED8 /* LoginVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVIew.swift; sourceTree = "<group>"; };
 		DD93D3142567CFE9006ACB4E /* CoursesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesList.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				DDE983802594B924008649FC /* SuccessView.swift */,
 				DD9869C32588E5EA00AA5E76 /* Buttons.swift */,
 				DD34676E2548577D00A4A4BA /* Assets.xcassets */,
+				DD83BA822596152400129830 /* GoogleService-Info.plist */,
 				DD15BE3C256655FA0006F0A0 /* Work_Sans */,
 				DD242D9C25936ED50038498E /* Lottie */,
 				DD3467732548577D00A4A4BA /* Info.plist */,
@@ -315,6 +318,7 @@
 				DD15BE58256655FA0006F0A0 /* WorkSans-SemiBoldItalic.ttf in Resources */,
 				DD15BE65256655FA0006F0A0 /* WorkSans-ExtraBoldItalic.ttf in Resources */,
 				DD242D9F25936ED50038498E /* loading.json in Resources */,
+				DD83BA832596152400129830 /* GoogleService-Info.plist in Resources */,
 				DD15BE54256655FA0006F0A0 /* WorkSans-VariableFont_wght.ttf in Resources */,
 				DD15BE62256655FA0006F0A0 /* WorkSans-Thin.ttf in Resources */,
 				DD15BE5B256655FA0006F0A0 /* WorkSans-ExtraLight.ttf in Resources */,

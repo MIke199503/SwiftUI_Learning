@@ -83,3 +83,6 @@ UIViewRepresentable学习资料：https://beta.segmentfault.com/a/11900000375101
 时间点：2020-12-24日，学习到第51课，52看了3/4，安装cocopods太慢了，然后firebase，还不知道如何使用，先暂停更新，代码，学习firebase。
 
 学习参考资料：https://www.yiibai.com/firebase/firebase_environment_setup.html#article-start
+
+时间点：2020-12-25日，圣诞节快乐～🍎，今天在折腾cocoapods和rvm还有homebrew，好烦啊，这样问题，那样问题。
+
