@@ -86,3 +86,10 @@ UIViewRepresentable学习资料：https://beta.segmentfault.com/a/11900000375101
 
 时间点：2020-12-25日，圣诞节快乐～🍎，今天在折腾cocoapods和rvm还有homebrew，好烦啊，这样问题，那样问题。
 
+时间点：2020-12-27日，昨日没有更新，因为环境还是没弄好，今天终于把环境弄好了，其实环境问题，一直翻墙处理就好了，今天把firebase都添加到了程序中，经过三天的折腾，还是OK了。然后关于生命周期的问题，网上资源很少，不过还好找到了。之前的Appdelegate 和sceneDelegate都融合到xxxapp中去了，总体来说比之前简单一点了。
+
+生命周期学习资料：1:https://www.hackingwithswift.com/quick-start/swiftui/how-to-add-an-appdelegate-to-a-swiftui-app
+
+​								   2：https://www.jianshu.com/p/77168d7a544e
+
+​							 	 3：https://developer.apple.com/documentation/swiftui/app-structure-and-behavior
