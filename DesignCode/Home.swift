@@ -14,10 +14,12 @@ struct Home: View {
     @State var showProfile = false
     @State var ViewState = CGSize.zero
     @State var showContent = false
+    @EnvironmentObject var user:UserStore
+    
     var body: some View {
         ZStack {
             Color("background2")//窗口地板
-                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/) //设置Topbar的安全范围
+                .edgesIgnoringSafeArea(.all) //设置Topbar的安全范围
                 .onTapGesture{
                     self.showProfile.toggle()
                 }
@@ -62,6 +64,33 @@ struct Home: View {
                             self.ViewState  = .zero
                         })
                 )
+            
+            if user.showLogin{
+                ZStack {
+                    LoginVIew()
+                    
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "xmark")
+                                .frame(width: 36, height: 36)
+                                .foregroundColor(.white)
+                                .background(Color.black)
+                                .clipShape(Circle())
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                    .onTapGesture {
+                        self.user.showLogin = false
+                    }
+                    
+                    
+                    
+                    
+                }
+            }
+            
             if showContent {
                 BlurView(style: .systemMaterial).edgesIgnoringSafeArea(.all)
                 
@@ -100,25 +129,44 @@ struct Home: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home().environment(\.colorScheme, .dark)
+        Home()
+//        .environment(\.colorScheme, .dark)
         //设置预览为暗黑模式
-            .environment(\.sizeCategory, .extraExtraLarge)
+//            .environment(\.sizeCategory, .extraExtraLarge)
         //设置字体的大小，对应系统里面的字体设计，
+        .environmentObject(UserStore())
     }
 }
 
 struct AvatarView: View {
     @Binding var showProfile:Bool
+    @EnvironmentObject var user:UserStore
     
     var body: some View {
-        Button(action: {self.showProfile.toggle()}, label: {
-            Image("Avatar")
-                .renderingMode(.original)//渲染模式，这里选择原本图片的样子
-                .resizable()
-                .frame(width: 36, height: 36)
-                .clipShape(Circle())
-            
-        })
+        VStack {
+            if user.isLogged {
+                Button(action: {self.showProfile.toggle()}, label: {
+                Image("Avatar")
+                    .renderingMode(.original)//渲染模式，这里选择原本图片的样子
+                    .resizable()
+                    .frame(width: 36, height: 36)
+                    .clipShape(Circle())
+                
+                })
+            } else {
+                Button(action: {self.user.showLogin.toggle()}, label: {
+                    Image(systemName:"person")
+                    .foregroundColor(.primary)
+                    .font(.system(size:16,weight:.medium))
+                    .frame(width: 36, height: 36)
+                    .background(Color("background3"))
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1 )
+                    .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 20 )
+                
+                })
+            }
+        }
     }
 }
 

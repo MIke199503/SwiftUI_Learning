@@ -10,8 +10,8 @@ import SwiftUI
 struct HomeView: View {
     @Binding var showProfile:Bool
     @State var showUpdate = false
-    @Binding var showContent:Bool
-    
+    @Binding var showContent : Bool
+
     var body: some View {
         //这里添加一个scrollview可以上下滑动。
         ScrollView(showsIndicators: false) {
@@ -22,9 +22,9 @@ struct HomeView: View {
                         .modifier(customFontModifier(size:28))
                         //当font和modifier两个修饰器都对字体进行操作的时候，font的优先级会大于modifier的优先级。
                     Spacer()
-                    
+
                     AvatarView(showProfile: $showProfile)
-                    
+
                     Button(action: {self.showUpdate.toggle()}) {
                         Image(systemName: "bell")
                             .foregroundColor(.primary)
@@ -46,7 +46,7 @@ struct HomeView: View {
                 .padding(.horizontal)
                 .padding(.leading,14)
                 .padding(.top,30)
-                
+
                 ScrollView(.horizontal, showsIndicators:false) {
                     WatchRingsView()
                         .padding(.horizontal,30)
@@ -55,11 +55,10 @@ struct HomeView: View {
                             self.showContent = true
                         }
                 }
-                
+
                 //在scrollView的后面使用.horizontal只是修饰的是操作的方向，不改变内容的排布，内容的排布依然在内容处设置，
                 //showsIndicators 下方的进度条是否要要。
-                ScrollView(.horizontal,showsIndicators
-                           :false){
+                ScrollView(.horizontal,showsIndicators:false){
                     HStack(spacing:20) {
                         ForEach(sectionData) { item in
                             GeometryReader { geometry in
@@ -67,10 +66,10 @@ struct HomeView: View {
                                     .rotation3DEffect(
                                         Angle(degrees: Double(geometry.frame(in:.global).minX) - 30 ) / -20,
                                         axis: (x: 0.0, y: 10, z: 0.0))
-                                
+
                             }
                             .frame(width: 275, height: 275)
-                             
+
                         }
                     }
                     .padding(30)
@@ -78,17 +77,20 @@ struct HomeView: View {
                 }
                 .offset(y:-30)
                 
-                HStack {
-                    Text("Courses")
-                        .font(.title).bold()
-                    Spacer()
-                }
-                .padding(.leading,30)
-                .offset(y:-60)
-                SectionView(section: sectionData[2], width: screen.width - 60, height: 275)
-                    .offset(y : -30)
-               
-                Spacer()
+                CourseList()
+
+//                HStack {
+//                    Text("Courses")
+//                        .font(.title).bold()
+//                    Spacer()
+//                }
+//                .padding(.leading,30)
+//                .offset(y:-60)
+//
+//                SectionView(section: sectionData[2], width: screen.width - 60, height: 275)
+//                    .offset(y : -30)
+//
+//                Spacer()
             }
             .frame(width:screen.width)
         }
@@ -136,12 +138,12 @@ struct SectionView: View {
             }
             Text(section.text.uppercased()) // uppercased,设置为大写模式
                 .frame(maxWidth: .infinity,alignment: .leading)
-            
+
             section.image
                 .resizable()
                 .aspectRatio(contentMode: .fit )
                 .frame(width:210)
-            
+
         }
         .padding(.top, 20)
         .padding(.horizontal,20)
@@ -180,10 +182,10 @@ struct WatchRingsView: View {
                     Text("6 minutes left")
                         .bold()
                         .modifier(FontModifier(style:.subheadline))
-                    
+
                     Text("Watched 10 mins today")
                         .modifier(FontModifier(style:.caption))
-                    
+
                 }
                 .modifier(FontModifier())
             }
@@ -192,8 +194,8 @@ struct WatchRingsView: View {
             .cornerRadius(20)
             .modifier(ShadowModifier())
             //这里的modifier也是一个修饰器的，shadowmodifier是我ShadowModifier.swift里面的方法
-            
-            
+
+
             HStack(spacing: 12.0) {
                 RingView(color1: #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1), color2: #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1), percent: 54, width: 32, height: 32, show: .constant(true))
             }
@@ -201,7 +203,7 @@ struct WatchRingsView: View {
             .background(Color("background3"))
             .cornerRadius(20)
             .modifier(ShadowModifier())
-            
+
             HStack(spacing: 12.0) {
                 RingView(color1: #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1), color2: #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1), percent: 32, width: 32, height: 32, show: .constant(true))
             }
@@ -209,7 +211,15 @@ struct WatchRingsView: View {
             .background(Color("background3"))
             .cornerRadius(20)
             .modifier(ShadowModifier())
-            
+
         }
     }
 }
+
+
+
+
+
+
+
+
