@@ -97,3 +97,5 @@ UIViewRepresentable学习资料：https://beta.segmentfault.com/a/11900000375101
 
 
 时间点：2020-12-28日，学习到第53课，学习了environmentobject的用法，还有关于主界面的.environment问题。
+
+时间点：2020-12-29日，学习到第54课，学习了默认状态。
