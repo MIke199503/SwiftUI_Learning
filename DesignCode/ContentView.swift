@@ -35,7 +35,8 @@ struct ContentView: View {
                 
             
             BackCardView()
-                .frame(width: self.showCard ? 300 : 340, height: 220)
+                .frame(maxWidth: self.showCard ? 300 : 340)
+                .frame(height: 220)
                 .background(self.show ? Color("card3") : Color("card4"))
                 .cornerRadius(20)
                 .shadow(radius: 20 )
@@ -45,12 +46,13 @@ struct ContentView: View {
                 .scaleEffect(self.showCard ? 1 : 0.9)
                 .rotationEffect(.degrees(self.show ? 0 : 10))
                 .rotationEffect(.degrees(self.showCard ? -10 : 0 )) //这里当卡片被点击的时候，就取消旋转，这里的旋转时在上面的10上，取反方向10
-                .rotation3DEffect(Angle(degrees:self.showCard ? 0 : 10), axis: (x: 10.0, y: 0, z: 0))
+//                .rotation3DEffect(Angle(degrees:self.showCard ? 0 : 10), axis: (x: 10.0, y: 0, z: 0)) //在ipad横屏的时候，会出现bug
                 .blendMode(.hardLight)
                 .animation(.easeOut(duration: 0.5))
             
             BackCardView()
-                .frame(width: 340, height: 220)
+                .frame(maxWidth: 340)
+                .frame(height: 220)
                 .background(self.show ? Color("card4") : Color("card3"))
                 .cornerRadius(20)
                 .shadow(radius: 20 )
@@ -60,12 +62,13 @@ struct ContentView: View {
                 .scaleEffect(self.showCard  ? 1 : 0.95) //放大缩小
                 .rotationEffect(Angle(degrees: self.show ? 0:5)) //跟.degrees的效果一样，旋转效果，三元操作符condition ？ true：false
                 .rotationEffect(.degrees(self.showCard ? -5 : 0 ))
-                .rotation3DEffect(Angle(degrees:self.showCard ? 0 : 5), axis: (x: 10.0, y: 0, z: 0))//3D旋转特效，
+//                .rotation3DEffect(Angle(degrees:self.showCard ? 0 : 5), axis: (x: 10.0, y: 0, z: 0))//3D旋转特效，
                 .blendMode(.hardLight)
                 .animation(.easeOut(duration: 0.3)) //动画，设置动画的方式，这里采用线性的方式，这里的动效果是指：数据发生变化驱动的效果,duration：持续时间
             
             CardView()//subview 只能在有zstack的时候使用
-                .frame(width: self.showCard ? 375:340.0, height: 220.0)     //设置整个Vs的大小。可以使用inspector检测器
+                .frame(maxWidth: self.showCard ? 375:340.0)     //设置整个Vs的大小。可以使用inspector检测器
+                .frame(height: 220.0)
                 .background(Color.black)     // 设置背景色
 //                .cornerRadius(20)   //剪切圆角 ,这种剪切是在本身的基础上进行加减，
                 .clipShape(RoundedRectangle(cornerRadius: self.showCard ? 30:20, style: .continuous))
@@ -101,39 +104,41 @@ struct ContentView: View {
             /*gesture对应就是手势操作，draggesture：拖拽，onchanged就是当数据发生改变，我们就可以获得数据value，
              将value数据的值转换一下，给到viewstale变量,onended就是当你的拖拽结束后的操作，这里的.zero,就是，我们回到我们默认的位置。*/
 
-            BottomCardView(show: $showCard)
-                .offset(x: 0, y: self.showCard ? 360 : 1000)
-                .offset(y: self.bottomState.height)
-                .blur(radius: self.show ? 20 : 0)
-            
-                .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8)) //时序曲线。前面的四个数字决定的运行的方式，后面的duration决定了持续时间。
-                .gesture(
-                    //这里的gesture是对拖拽时做处理，大于50就改变showcard的状态
-                    //showFull的作用是当往下拉的量没有到时，依然为全屏，这里可以理解一下每一次拖动，bootomstate的值都是针对当前位置相对偏移量
-                    DragGesture()
-                        .onChanged({ (value) in
-                            self.bottomState = value.translation
-                            if self.showFull{
-                                self.bottomState.height += -300
-                            }
-                            if self.bottomState.height  < -300 {
-                                //控制不让往上一直拖拽，
-                                self.bottomState.height = -300
-                            }
-                        })
-                        .onEnded({ (value) in
-                            if self.bottomState.height > 50{
-                                self.showCard = false
-                            }
-                            if (self.bottomState.height < -100 && !self.showFull) || (self.bottomState.height < -250 && self.showFull){
-                                self.bottomState.height = -300
-                                self.showFull = true
-                            }else{
-                                self.bottomState = .zero
-                                self.showFull = false
-                            }
-                        })
+            GeometryReader { bound in
+                BottomCardView(show: $showCard)
+                    .offset(x: 0, y: self.showCard ? bound.size.height / 2 : bound.size.height + bound.safeAreaInsets.top + bound.safeAreaInsets.bottom)
+                    .offset(y: self.bottomState.height)
+                    .blur(radius: self.show ? 20 : 0)
+                
+                    .animation(.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8)) //时序曲线。前面的四个数字决定的运行的方式，后面的duration决定了持续时间。
+                    .gesture(
+                        //这里的gesture是对拖拽时做处理，大于50就改变showcard的状态
+                        //showFull的作用是当往下拉的量没有到时，依然为全屏，这里可以理解一下每一次拖动，bootomstate的值都是针对当前位置相对偏移量
+                        DragGesture()
+                            .onChanged({ (value) in
+                                self.bottomState = value.translation
+                                if self.showFull{
+                                    self.bottomState.height += -300
+                                }
+                                if self.bottomState.height  < -300 {
+                                    //控制不让往上一直拖拽，
+                                    self.bottomState.height = -300
+                                }
+                            })
+                            .onEnded({ (value) in
+                                if self.bottomState.height > 50{
+                                    self.showCard = false
+                                }
+                                if (self.bottomState.height < -100 && !self.showFull) || (self.bottomState.height < -250 && self.showFull){
+                                    self.bottomState.height = -300
+                                    self.showFull = true
+                                }else{
+                                    self.bottomState = .zero
+                                    self.showFull = false
+                                }
+                            })
                 )
+            }.edgesIgnoringSafeArea(.all)
         }
         
         
@@ -143,6 +148,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewLayout(.fixed(width: 320, height: 667))
     }
 }
 
@@ -195,6 +201,9 @@ struct TitleView: View {
             }
             .padding()
             Image("Background1")
+                .resizable()
+                .aspectRatio(contentMode: .fit )
+                .frame(maxWidth:375)
             Spacer()
         }
     }
@@ -235,10 +244,11 @@ struct BottomCardView: View {
         }
         .padding(.top,8)
         .padding(.horizontal,20)
-        .frame(maxWidth: .infinity)//infinity：无限，这里扩充到界面两边，应对不同的device
+        .frame(maxWidth: 712)//infinity：无限，这里扩充到界面两边，应对不同的device
         .background(BlurView(style: .systemThinMaterial))
         .cornerRadius(30)
         .shadow(radius: 20 )
+        .frame(maxWidth:.infinity)
         
         
 

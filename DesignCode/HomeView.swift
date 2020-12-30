@@ -14,85 +14,88 @@ struct HomeView: View {
 
     var body: some View {
         //这里添加一个scrollview可以上下滑动。
-        ScrollView(showsIndicators: false) {
-            VStack {
-                HStack {
-                    Text("Watching")
-    //                    .font(.system(size: 28,weight:.bold))
-                        .modifier(customFontModifier(size:28))
-                        //当font和modifier两个修饰器都对字体进行操作的时候，font的优先级会大于modifier的优先级。
-                    Spacer()
+        GeometryReader { bound in
+            //使用geometry的原因是为了使用ipad模式。
+            ScrollView(showsIndicators: false) {
+                VStack {
+                    HStack {
+                        Text("Watching")
+        //                    .font(.system(size: 28,weight:.bold))
+                            .modifier(customFontModifier(size:28))
+                            //当font和modifier两个修饰器都对字体进行操作的时候，font的优先级会大于modifier的优先级。
+                        Spacer()
 
-                    AvatarView(showProfile: $showProfile)
+                        AvatarView(showProfile: $showProfile)
 
-                    Button(action: {self.showUpdate.toggle()}) {
-                        Image(systemName: "bell")
-                            .foregroundColor(.primary)
-//                            .renderingMode(.original)
-                            .font(.system(size:16,weight:.medium))
-                            .frame(width: 36, height: 36)
-                            .background(Color("background3"))
-                            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                            .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1 )
-                            .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 20 )
-                    }
-                    .sheet(isPresented: $showUpdate){
-                        UpdateList()
-                    }
-                    //sheet 的作用就是，当给定一个bool值的时候，如果为真的时候，就呈现一个表，这个表可以是一个视图
-                    //sheet还有三个参数，对应：呈现的样式，sheet闭合的样式，以及内容闭合
-                    //
-                }
-                .padding(.horizontal)
-                .padding(.leading,14)
-                .padding(.top,30)
-
-                ScrollView(.horizontal, showsIndicators:false) {
-                    WatchRingsView()
-                        .padding(.horizontal,30)
-                        .padding(.bottom,30)
-                        .onTapGesture {
-                            self.showContent = true
+                        Button(action: {self.showUpdate.toggle()}) {
+                            Image(systemName: "bell")
+                                .foregroundColor(.primary)
+    //                            .renderingMode(.original)
+                                .font(.system(size:16,weight:.medium))
+                                .frame(width: 36, height: 36)
+                                .background(Color("background3"))
+                                .clipShape(Circle())
+                                .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1 )
+                                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 20 )
                         }
-                }
+                        .sheet(isPresented: $showUpdate){
+                            UpdateList()
+                        }
+                        //sheet 的作用就是，当给定一个bool值的时候，如果为真的时候，就呈现一个表，这个表可以是一个视图
+                        //sheet还有三个参数，对应：呈现的样式，sheet闭合的样式，以及内容闭合
+                        //
+                    }
+                    .padding(.horizontal)
+                    .padding(.leading,14)
+                    .padding(.top,30)
 
-                //在scrollView的后面使用.horizontal只是修饰的是操作的方向，不改变内容的排布，内容的排布依然在内容处设置，
-                //showsIndicators 下方的进度条是否要要。
-                ScrollView(.horizontal,showsIndicators:false){
-                    HStack(spacing:20) {
-                        ForEach(sectionData) { item in
-                            GeometryReader { geometry in
-                                SectionView(section: item)
-                                    .rotation3DEffect(
-                                        Angle(degrees: Double(geometry.frame(in:.global).minX) - 30 ) / -20,
-                                        axis: (x: 0.0, y: 10, z: 0.0))
+                    ScrollView(.horizontal, showsIndicators:false) {
+                        WatchRingsView()
+                            .padding(.horizontal,30)
+                            .padding(.bottom,30)
+                            .onTapGesture {
+                                self.showContent = true
+                            }
+                    }
+
+                    //在scrollView的后面使用.horizontal只是修饰的是操作的方向，不改变内容的排布，内容的排布依然在内容处设置，
+                    //showsIndicators 下方的进度条是否要要。
+                    ScrollView(.horizontal,showsIndicators:false){
+                        HStack(spacing:20) {
+                            ForEach(sectionData) { item in
+                                GeometryReader { geometry in
+                                    SectionView(section: item)
+                                        .rotation3DEffect(
+                                            Angle(degrees: Double(geometry.frame(in:.global).minX) - 30 ) / -20,
+                                            axis: (x: 0.0, y: 10, z: 0.0))
+
+                                }
+                                .frame(width: 275, height: 275)
 
                             }
-                            .frame(width: 275, height: 275)
-
                         }
+                        .padding(30)
+                        .padding(.bottom,30)
                     }
-                    .padding(30)
-                    .padding(.bottom,30)
-                }
-                .offset(y:-30)
-                
-                CourseList()
+                    .offset(y:-30)
+                    
+//                    CourseList()
 
-//                HStack {
-//                    Text("Courses")
-//                        .font(.title).bold()
-//                    Spacer()
-//                }
-//                .padding(.leading,30)
-//                .offset(y:-60)
-//
-//                SectionView(section: sectionData[2], width: screen.width - 60, height: 275)
-//                    .offset(y : -30)
-//
-//                Spacer()
+                    HStack {
+                        Text("Courses")
+                            .font(.title).bold()
+                        Spacer()
+                    }
+                    .padding(.leading,30)
+                    .offset(y:-60)
+    
+                    SectionView(section: sectionData[2], width: bound.size.width - 60, height: 275)
+                        .offset(y : -30)
+    
+                    Spacer()
+                }
+                .frame(width:bound.size.width)
             }
-            .frame(width:screen.width)
         }
     }
 }
@@ -119,6 +122,7 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(showProfile: .constant(false), showContent: .constant(false))
+            .environmentObject(UserStore())
     }
 }
 
