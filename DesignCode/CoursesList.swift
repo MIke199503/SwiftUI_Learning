@@ -14,60 +14,79 @@ struct CourseList: View {
     @State var active = false // 是否有视图进行展开
     @State var activeIndex = -1 // 展开的是第一个元素
     @State var activeView = CGSize.zero
+    @Environment(\.horizontalSizeClass) var  horizontalSizeClass
     
     var body: some View {
-        ZStack {
-            Color.black
-                .opacity(Double(self.activeView.height / 500))
-                .animation(.linear)
-                .edgesIgnoringSafeArea(.all)
-            //设置背景底色，这里我记录一下，如果想要背景色的话，使用color就可以了，因为color不会占据一个视图空间，相当直接将父视图染成黑色的。
-                
-            ScrollView {
-                VStack(spacing: 30.0) {
-                    Text("Courses")
-                        .font(.largeTitle).bold()
-                        .frame(maxWidth:.infinity,alignment: .leading)
-                        .padding(.leading,30)
-                        .padding(.top ,30)
-                        .blur(radius: active ? 20 : 0)
+        GeometryReader { bound in
+            ZStack {
+                Color.black
+                    .opacity(Double(self.activeView.height / 500))
+                    .animation(.linear)
+                    .edgesIgnoringSafeArea(.all)
+                //设置背景底色，这里我记录一下，如果想要背景色的话，使用color就可以了，因为color不会占据一个视图空间，相当直接将父视图染成黑色的。
                     
-                    //我自己的理解：这里传进去的是course的索引值，id就是使用传进去的course的索引UUID()
-                    ForEach(store.course.indices,id:\.self)  { index in
-                        GeometryReader {geometry in
-                            ZStack {
-                                CourseView(
-                                    show: self.$store.course[index].show,
-                                    course: self.store.course[index],
-                                        active: self.$active,
-                                        index: index,
-                                        activeindex: self.$activeIndex,
-                                        activeView: self.$activeView
-                                            )
-                                .offset(y:self.store.course[index].show ? -geometry.frame(in: .global).minY:0)//当点击的时候，就去到最上方
-                                    .opacity(self.activeIndex != index && self.active ? 0 : 1)
-                                // 如果展开的元素与当前元素不对应，并且此时正属于展开状态的话，就透明，否则不透明。
-                                //简单来说，就是：当有东西展开，并且自己不是那个展开的人时，就隐藏，否则显示。
-                                    .scaleEffect(self.activeIndex != index && self.active ?  0.5 : 1 )
-                                    .offset(x:self.activeIndex != index && self.active ? screen.width : 0)
-                            }
+                ScrollView {
+                    VStack(spacing: 30.0) {
+                        Text("Courses")
+                            .font(.largeTitle).bold()
+                            .frame(maxWidth:.infinity,alignment: .leading)
+                            .padding(.leading,30)
+                            .padding(.top ,30)
+                            .blur(radius: active ? 20 : 0)
+                        
+                        //我自己的理解：这里传进去的是course的索引值，id就是使用传进去的course的索引UUID()
+                        ForEach(store.course.indices,id:\.self)  { index in
+                            GeometryReader {geometry in
+                                    CourseView(
+                                        show: self.$store.course[index].show,
+                                        course: self.store.course[index],
+                                            active: self.$active,
+                                            index: index,
+                                            activeindex: self.$activeIndex,
+                                            activeView: self.$activeView,
+                                            bounds: bound
+                                                )
+                                    .offset(y:self.store.course[index].show ? -geometry.frame(in: .global).minY:0)//当点击的时候，就去到最上方
+                                        .opacity(self.activeIndex != index && self.active ? 0 : 1)
+                                    // 如果展开的元素与当前元素不对应，并且此时正属于展开状态的话，就透明，否则不透明。
+                                    //简单来说，就是：当有东西展开，并且自己不是那个展开的人时，就隐藏，否则显示。
+                                        .scaleEffect(self.activeIndex != index && self.active ?  0.5 : 1 )
+                                        .offset(x:self.activeIndex != index && self.active ? bound.size.width  : 0)
+                                }
+    //                        .frame(height: self.courses[index].show ? screen.height : 280)
+                            .frame(height:horizontalSizeClass == .regular ?  80 : 280 )
+                            //如果在这里使用frame，因为在geometry当中，所以，当开始拓展的时候，geometry会把你拓展开的，进行一个大小计算，所以会把其他的推开来
+                            //如果你想要的就是这种推开的效果，那OK，不想要的话，首先我们将geometry这里设置为固定的大小，然后可以看一下CourseView的定义中，对应的注释部分
+                            .frame(maxWidth: self.store.course[index].show ? 712:getCardWidth(bounds: bound))
+                            .zIndex(self.store.course[index].show ? 1 : 0) // 我的理解就是如果是1 ，就到最前面来，如果不是就在后面。
+                            
+
                         }
-    //                    .frame(height: self.courses[index].show ? screen.height : 280)
-                        .frame(height:280)
-                        //如果在这里使用frame，因为在geometry当中，所以，当开始拓展的时候，geometry会把你拓展开的，进行一个大小计算，所以会把其他的推开来
-                        //如果你想要的就是这种推开的效果，那OK，不想要的话，首先我们将geometry这里设置为固定的大小，然后可以看一下CourseView的定义中，对应的注释部分，
-                        .frame(maxWidth: self.store.course[index].show ? .infinity:screen.width - 60)
-                        .zIndex(self.store.course[index].show ? 1 : 0) // 我的理解就是如果是1 ，就到最前面来，如果不是就在后面。
                     }
+                    .frame(width: bound.size.width)
+                    .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
                 }
-                .frame(width: screen.width)
-                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
+                .statusBar(hidden: self.active ? true : false)
+                //statusBar就是设置是否隐藏顶部的信号时间信息，
+                .animation(.linear)
             }
-            .statusBar(hidden: active ? true : false)
-            //statusBar就是设置是否隐藏顶部的信号时间信息，
-            .animation(.linear)
         }
     }
+}
+
+
+func getCardWidth(bounds:GeometryProxy) -> CGFloat{
+    if bounds.size.width > 712{
+        return 712
+    }
+    return bounds.size.width - 60
+}
+
+func getCardCornerRadius(bounds:GeometryProxy) -> CGFloat {
+    if bounds.size.width < 712 && bounds.safeAreaInsets.top < 44 {
+        return 0
+    }
+    return 30
 }
 /*
  这里单独来记录一下关于在上方的active绑定的逻辑，
@@ -88,6 +107,7 @@ struct CourseView: View {
     var index : Int //用于获取自己在视图中的index
     @Binding var activeindex : Int //传递自己是不是被展开了。
     @Binding var activeView : CGSize // 存储拖拽数据
+    var bounds : GeometryProxy
      
     
     var body: some View {
@@ -104,7 +124,7 @@ struct CourseView: View {
                        maxHeight:show ? .infinity : 280,alignment:.top)
                 .offset(y: show ? 460 : 0 )
                 .background(Color("background2"))
-                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: show ? getCardCornerRadius(bounds : bounds) : 30, style: .continuous))
                 .shadow(color:Color.black.opacity(0.2),radius:20,x:0,y:20)
                 .opacity(show ? 1 : 0)
             VStack {
@@ -143,7 +163,7 @@ struct CourseView: View {
             //        .frame(width:self.show ? screen.width : screen.width - 60,height: self.show ? screen.height : 280)
             .frame(maxWidth: show ? .infinity : screen.width -  60,maxHeight: show ? 480 : 280)
             .background(Color(course.color))
-            .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: show ? getCardCornerRadius(bounds: bounds):30, style: .continuous))
             .shadow(color: Color(course.color).opacity(0.3), radius:20, x: 0, y: 20)
             .gesture(
                 show ?
@@ -183,7 +203,7 @@ struct CourseView: View {
                  */
             }
         }
-        .frame(height:show ? screen.height : 280)
+        .frame(height:show ? bounds.size.height + bounds.safeAreaInsets.top + bounds.safeAreaInsets.bottom : 280)
         //续上方geometry的内容，在我们的CourseView中，根据frame来变化。至于为什么这样就可以了，我暂时也没有搞明白为什么。
         //但是这样做，会引发一个新的问题，就是因为我们限制了geometry的大小，当我们点击之后，前面的展开会被后面的进行一个覆盖。
         .scaleEffect(1 - self.activeView.height / 1000)

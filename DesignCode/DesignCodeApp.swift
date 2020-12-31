@@ -15,7 +15,7 @@ struct DesignCodeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Home().environmentObject(UserStore())
+            CourseList().environmentObject(UserStore())
             //最新的改版了，只需要在这里设置默认载入的界面就可以了，不再需要去之前那个sc什么什么的地方去修改了。
             
             //在之前的生命周期管理中，let window = UIWindow(windowScene:windowScene)的代码，我不知道这样处理对不对，但是至少没有报错，直接在上方的后面接着写.environment....就可以了

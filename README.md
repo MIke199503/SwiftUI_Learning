@@ -101,3 +101,9 @@ UIViewRepresentable学习资料：https://beta.segmentfault.com/a/11900000375101
 时间点：2020-12-29日，学习到第54课，学习了默认状态。
 
 时间点：2020-12-30日，学习到第55课，修改了各类frame以适应ipad （大屏幕），iPhonese（小屏幕）。
+
+时间点：2020-12-31日，学习到第56课，environment size class，就是通过environment来获取尺寸，但是在environment中传入的参数不知道是什么意思，有时间需要查询下。
+
+
+
+新年快乐。Happy New Years ! Every Programmer,Good Lucky For U !
