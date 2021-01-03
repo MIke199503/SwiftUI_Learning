@@ -107,3 +107,7 @@ UIViewRepresentable学习资料：https://beta.segmentfault.com/a/11900000375101
 
 
 新年快乐。Happy New Years ! Every Programmer,Good Lucky For U !
+
+
+
+时间点：2021-01-03日，All Over，程序载入界面LaunchScreen.storyboard在最新的版本里面，不见了，我找不到，😣，下一个练习和学习的项目是WIBODEMO，有可能会先学一下Python的NIP，开心。

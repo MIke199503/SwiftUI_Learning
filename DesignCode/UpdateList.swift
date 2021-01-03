@@ -61,6 +61,7 @@ struct UpdateList: View {
                 Text("Add Update") //在左边添加一个加数据的按钮
             },trailing: EditButton()) //在右边添加一个编辑按钮
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

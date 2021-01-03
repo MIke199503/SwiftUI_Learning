@@ -23,18 +23,8 @@ struct Home: View {
                 .onTapGesture{
                     self.showProfile.toggle()
                 }
-            HomeView(showProfile: $showProfile, showContent: $showContent)
-                .padding(.top,30) //topbar的大小就是30
-                .background(
-                    VStack {
-                        LinearGradient(gradient: Gradient(colors: [Color("background2"), Color("background1")]), startPoint: .top, endPoint: .bottom)
-                            .frame(height:200)
-                        Spacer()
-                    }
-                    .background(Color("background1"))
-            )
-                .clipShape(RoundedRectangle(cornerRadius: 30,style: .continuous))
-                .shadow(color: Color.black.opacity(0.02), radius: 20, x: 0, y: 20)
+            
+            HomeBackgroundView(showProfile: $showProfile)
                 .offset(y:self.showProfile ? -450 : 0 )
                 .rotation3DEffect(
                     Angle(degrees: self.showProfile ? Double(self.ViewState.height / 10) - 10:0),
@@ -43,6 +33,18 @@ struct Home: View {
                 .scaleEffect(self.showProfile ? 0.9 : 1)
                 .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
                 .edgesIgnoringSafeArea(.all)
+            
+            
+            TabView {
+                HomeView(showProfile: $showProfile, showContent: $showContent, ViewState: $ViewState)
+                    .tabItem {
+                        Image(systemName: "play.circle.fill")
+                        Text("Home")
+                    }
+            }
+//                .padding(.top,30) //topbar的大小就是30
+            //在这里添加特效会添加到scrollview，
+               
                 
             MenuView(showProfile: $showProfile  )
                 .background(Color.black.opacity(0.001))
@@ -172,3 +174,18 @@ struct AvatarView: View {
 
 
 
+
+struct HomeBackgroundView: View {
+    
+    @Binding var showProfile:Bool
+    var body: some View {
+        VStack {
+            LinearGradient(gradient: Gradient(colors: [Color("background2"), Color("background1")]), startPoint: .top, endPoint: .bottom)
+                .frame(height:200)
+            Spacer()
+        }
+        .background(Color("background1"))
+        .clipShape(RoundedRectangle(cornerRadius: showProfile ? 30:0,style: .continuous))
+        .shadow(color: Color.black.opacity(0.02), radius: 20, x: 0, y: 20)
+    }
+}

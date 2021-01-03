@@ -11,7 +11,18 @@ struct HomeView: View {
     @Binding var showProfile:Bool
     @State var showUpdate = false
     @Binding var showContent : Bool
+    @Binding var ViewState:CGSize
 
+    
+    @ObservedObject var store = CourseStore()
+//    @State var courses = courseData   //在第37课取消使用这种固化的方式，采用cms来管理数据，上方为替代方案
+    @State var active = false // 是否有视图进行展开
+    @State var activeIndex = -1 // 展开的是第一个元素
+    @State var activeView = CGSize.zero
+    @Environment(\.horizontalSizeClass) var  horizontalSizeClass
+    @State var isScrollable = false
+    
+    
     var body: some View {
         //这里添加一个scrollview可以上下滑动。
         GeometryReader { bound in
@@ -48,6 +59,7 @@ struct HomeView: View {
                     .padding(.horizontal)
                     .padding(.leading,14)
                     .padding(.top,30)
+                    .blur(radius : self.active ? 20 : 0 )
 
                     ScrollView(.horizontal, showsIndicators:false) {
                         WatchRingsView()
@@ -57,6 +69,7 @@ struct HomeView: View {
                                 self.showContent = true
                             }
                     }
+                    .blur(radius : self.active ? 20 : 0 )
 
                     //在scrollView的后面使用.horizontal只是修饰的是操作的方向，不改变内容的排布，内容的排布依然在内容处设置，
                     //showsIndicators 下方的进度条是否要要。
@@ -66,7 +79,7 @@ struct HomeView: View {
                                 GeometryReader { geometry in
                                     SectionView(section: item)
                                         .rotation3DEffect(
-                                            Angle(degrees: Double(geometry.frame(in:.global).minX) - 30 ) / -20,
+                                            Angle(degrees: Double(geometry.frame(in:.global).minX) - 30 ) / -getAngleMultiplier(bounds: bound),
                                             axis: (x: 0.0, y: 10, z: 0.0))
 
                                 }
@@ -78,6 +91,7 @@ struct HomeView: View {
                         .padding(.bottom,30)
                     }
                     .offset(y:-30)
+                    .blur(radius : self.active ? 20 : 0 )
                     
 //                    CourseList()
 
@@ -88,14 +102,50 @@ struct HomeView: View {
                     }
                     .padding(.leading,30)
                     .offset(y:-60)
+                    .blur(radius : self.active ? 20 : 0 )
     
-                    SectionView(section: sectionData[2], width: bound.size.width - 60, height: 275)
-                        .offset(y : -30)
-    
+                    VStack(spacing : 30 ){
+                        ForEach(store.course.indices,id:\.self)  { index in
+                            GeometryReader {geometry in
+                                    CourseView(
+                                        show: self.$store.course[index].show,
+                                        course: self.store.course[index],
+                                            active: self.$active,
+                                            index: index,
+                                            activeindex: self.$activeIndex,
+                                            activeView: self.$activeView,
+                                            bounds: bound,
+                                        isScrollable: self.$isScrollable
+                                                )
+                                    .offset(y:self.store.course[index].show ? -geometry.frame(in: .global).minY:0)//当点击的时候，就去到最上方
+                                        .opacity(self.activeIndex != index && self.active ? 0 : 1)
+                                    // 如果展开的元素与当前元素不对应，并且此时正属于展开状态的话，就透明，否则不透明。
+                                    //简单来说，就是：当有东西展开，并且自己不是那个展开的人时，就隐藏，否则显示。
+                                        .scaleEffect(self.activeIndex != index && self.active ?  0.5 : 1 )
+                                        .offset(x:self.activeIndex != index && self.active ? bound.size.width  : 0)
+                                }
+    //                        .frame(height: self.courses[index].show ? screen.height : 280)
+                            .frame(height:horizontalSizeClass == .regular ?  80 : 280 )
+                            //如果在这里使用frame，因为在geometry当中，所以，当开始拓展的时候，geometry会把你拓展开的，进行一个大小计算，所以会把其他的推开来
+                            //如果你想要的就是这种推开的效果，那OK，不想要的话，首先我们将geometry这里设置为固定的大小，然后可以看一下CourseView的定义中，对应的注释部分
+                            .frame(maxWidth: self.store.course[index].show ? 712:getCardWidth(bounds: bound))
+                            .zIndex(self.store.course[index].show ? 1 : 0) // 我的理解就是如果是1 ，就到最前面来，如果不是就在后面。
+                        }
+                    }
+                    .padding(.bottom,300)
+                    .offset(y:-60)
                     Spacer()
                 }
                 .frame(width:bound.size.width)
+                .offset(y:self.showProfile ? -450 : 0 )
+                .rotation3DEffect(
+                    Angle(degrees: self.showProfile ? Double(self.ViewState.height / 10) - 10:0),
+                    axis: (x: 10, y: 0, z: 0) )
+                //这里讲height除10，是为了避免角度态度，-10是为了默认。这里的height数值类型是CGfloat，但是这里只能用double性
+                .scaleEffect(self.showProfile ? 0.9 : 1)
+                .animation(.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0))
             }
+            .disabled(self.active && !self.isScrollable ? true  : false)
         }
     }
 }
@@ -118,10 +168,18 @@ struct HomeView: View {
  其中的frame就是返回坐标信息，这个坐标信息可以有不同的基准，.local .global .name ，global的话，就是全局，对与整个父视图
  然后后面跟的minx，就是子视图最左边到父视图最左边，maxx就是视图最右边到父视图的最左边，如果是Y的话，就是与最上方的
  */
+func getAngleMultiplier(bounds : GeometryProxy) -> Double{
+    if bounds.size.width > 500{
+        return 80
+    }else{
+        return 20
+    }
+}
+
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(showProfile: .constant(false), showContent: .constant(false))
+        HomeView(showProfile: .constant(false), showContent: .constant(false),ViewState:.constant(.zero))
             .environmentObject(UserStore())
     }
 }
